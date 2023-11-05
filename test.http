@@ -1,0 +1,33 @@
+GET http://localhost:5050/user/654793f40ee076ff8e428358
+
+
+####
+
+POST http://localhost:5050/user/create HTTP/1.1
+Content-Type: application/json
+
+{
+   "firstname": "Alessandro",
+   "lastname": "Orlandelli",
+   "email": "orlaale@live.it",
+   "dateOfBirth": "29/09/2000",
+   "password": "Ciaosnoale2909",
+   "phoneNumber": "333444888999",
+   "gender": "male"
+}
+
+####
+
+
+PATCH http://localhost:5050/user/update/654793f40ee076ff8e428358
+Content-Type: application/json
+
+{
+   "phoneNumber": 33366689
+}
+
+
+####
+
+
+DELETE http://localhost:5050/user/delete/654793f40ee076ff8e428358
