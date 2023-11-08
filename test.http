@@ -3,6 +3,13 @@ GET http://localhost:5050/user/654793f40ee076ff8e428358
 
 ####
 
+
+GET http://localhost:5050/company/654bc3e7b6f02f35c850eaf6
+
+
+####
+
+
 POST http://localhost:5050/user/create HTTP/1.1
 Content-Type: application/json
 
@@ -16,8 +23,21 @@ Content-Type: application/json
    "gender": "male"
 }
 
+
 ####
 
+POST http://localhost:5050/company/create HTTP/1.1
+Content-Type: application/json
+
+{
+   "name": "prova",
+   "email": "orlaale@live.it",
+   "password": "Ciaosnoale2909",
+   "phoneNumber": "333444888999"
+}
+
+
+####
 
 PATCH http://localhost:5050/user/update/654793f40ee076ff8e428358
 Content-Type: application/json
@@ -29,5 +49,19 @@ Content-Type: application/json
 
 ####
 
+PATCH http://localhost:5050/company/update/654bc3e7b6f02f35c850eaf6
+Content-Type: application/json
+
+{
+   "phoneNumber": 3336668999
+}
+
+
+####
+
 
 DELETE http://localhost:5050/user/delete/654793f40ee076ff8e428358
+####
+
+
+DELETE http://localhost:5050/company/delete/654bc3e7b6f02f35c850eaf6

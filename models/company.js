@@ -22,6 +22,7 @@ const companySchema = new mongoose.Schema(
       logo: {
          type: String,
          require: false,
+         default: "https://img.icons8.com/pastel-glyph/64/person-male--v1.png",
       },
    },
    { timestamps: true, strict: true }
