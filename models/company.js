@@ -19,7 +19,7 @@ const companySchema = new mongoose.Schema(
          type: Number,
          require: false,
       },
-      logo: {
+      avatar: {
          type: String,
          require: false,
          default: "https://img.icons8.com/pastel-glyph/64/person-male--v1.png",

@@ -16,7 +16,7 @@ Content-Type: application/json
 {
    "firstname": "Alessandro",
    "lastname": "Orlandelli",
-   "email": "orlaale@live.it",
+   "email": "orlaale@live.ji",
    "dateOfBirth": "29/09/2000",
    "password": "Ciaosnoale2909",
    "phoneNumber": "333444888999",
@@ -31,9 +31,20 @@ Content-Type: application/json
 
 {
    "name": "prova",
-   "email": "orlaale@live.it",
+   "email": "orlaale@live.com",
    "password": "Ciaosnoale2909",
    "phoneNumber": "333444888999"
+}
+
+
+####
+
+POST http://localhost:5050/login HTTP/1.1
+Content-Type: application/json
+
+{
+   "email": "orlaale@live.it",
+   "password": "Vovinam2009"
 }
 
 

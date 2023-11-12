@@ -1,5 +1,6 @@
 const express = require("express");
 const userModel = require("../models/user");
+const companyModel = require("../models/company");
 const logger = require("../middleware/logger");
 const upload = require("../middleware/avtarUploader");
 const user = express.Router();
@@ -32,6 +33,14 @@ user.get("/user/:id", logger, async (req, res) => {
 user.post("/user/create", logger, async (req, res) => {
    const salt = await bcrypt.genSalt(10);
    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+   const company = await companyModel.findOne({ email: `${req.body.email}` });
+
+   if (company) {
+      return res.status(404).send({
+         statusCode: 404,
+         message: "Email already exist",
+      });
+   }
 
    const newUser = new userModel({
       firstname: req.body.firstname,
