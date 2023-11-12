@@ -19,7 +19,17 @@ login.post("/login", async (req, res) => {
       }
    }
 
-   const validPassword = await bcrypt.compare(req.body.password, user.password);
+   if (user) {
+      var validPassword = await bcrypt.compare(
+         req.body.password,
+         user.password
+      );
+   } else {
+      var validPassword = await bcrypt.compare(
+         req.body.password,
+         company.password
+      );
+   }
 
    if (!validPassword) {
       return res.status(400).send({
