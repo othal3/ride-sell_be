@@ -2,7 +2,7 @@ const express = require("express");
 const companyModel = require("../models/company");
 const userModel = require("../models/user");
 const logger = require("../middleware/logger");
-const upload = require("../middleware/avtarUploader");
+const upload = require("../middleware/avatarUpload");
 const company = express.Router();
 const bcrypt = require("bcrypt");
 

@@ -2,9 +2,10 @@ const express = require("express");
 const userModel = require("../models/user");
 const companyModel = require("../models/company");
 const logger = require("../middleware/logger");
-const upload = require("../middleware/avtarUploader");
+const upload = require("../middleware/avatarUpload");
 const user = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 user.get("/user/:id", logger, async (req, res) => {
    const { id } = req.params;
@@ -67,6 +68,60 @@ user.post("/user/create", logger, async (req, res) => {
    }
 });
 
+user.patch(
+   "/user/cloudUpdate/:id",
+   upload.single("avatar"),
+   async (req, res) => {
+      const { id } = req.params;
+
+      const userExist = await userModel.findById(id);
+
+      if (!userExist) {
+         return res.status(400).send({
+            statusCode: 404,
+            message: "User not found",
+         });
+      }
+
+      try {
+         const avatarUrl = req.file.path;
+         const options = { new: true };
+         const result = await userModel.findByIdAndUpdate(id, {
+            avatar: `${avatarUrl}`,
+         });
+
+         const token = jwt.sign(
+            {
+               id: result._id,
+               firstName: result.firstName,
+               lastName: result.lastName,
+               email: result.email,
+               dateOfBirth: result.dateOfBirth,
+               phoneNumber: result.phoneNumber,
+               avatar: result.avatar,
+               role: "user",
+            },
+            process.env.JWT_SECRET,
+            {
+               expiresIn: "24h",
+            }
+         );
+
+         res.status(200).send({
+            statusCode: 200,
+            message: "User edited succesfully",
+            result,
+            token,
+         });
+      } catch (e) {
+         res.status(500).send({
+            statusCode: 500,
+            message: "Internet server ERROR",
+         });
+      }
+   }
+);
+
 user.patch("/user/update/:id", logger, async (req, res) => {
    const { id } = req.params;
 
@@ -86,6 +141,22 @@ user.patch("/user/update/:id", logger, async (req, res) => {
          id,
          dataToUpdate,
          options
+      );
+
+      const token = jwt.sign(
+         {
+            id: result._id,
+            firstName: result.firstName,
+            lastName: result.lastName,
+            email: result.email,
+            dateOfBirth: result.dateOfBirth,
+            phoneNumber: result.phoneNumber,
+            avatar: result.avatar,
+         },
+         process.env.JWT_SECRET,
+         {
+            expiresIn: "24h",
+         }
       );
 
       res.status(200).send({

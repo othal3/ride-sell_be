@@ -42,16 +42,17 @@ login.post("/login", async (req, res) => {
       var token = jwt.sign(
          {
             id: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstName: user.firstname,
+            lastName: user.lastname,
             email: user.email,
             dateOfBirth: user.dateOfBirth,
             phoneNumber: user.phoneNumber,
             avatar: user.avatar,
+            role: "user",
          },
          process.env.JWT_SECRET,
          {
-            expiresIn: "72h",
+            expiresIn: "24h",
          }
       );
    } else {
@@ -62,10 +63,11 @@ login.post("/login", async (req, res) => {
             email: company.email,
             phoneNumber: company.phoneNumber,
             avatar: company.avar,
+            role: "company",
          },
          process.env.JWT_SECRET,
          {
-            expiresIn: "72h",
+            expiresIn: "24h",
          }
       );
    }

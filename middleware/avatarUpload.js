@@ -12,7 +12,7 @@ cloudinary.config({
 const cloudStorage = new CloudinaryStorage({
    cloudinary: cloudinary,
    params: {
-      folder: "ride&sell/avatar",
+      folder: "ridesell/avatar",
       format: async (req, file) => "png",
       public_id: (req, file) => file.name,
    },

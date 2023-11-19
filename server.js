@@ -5,15 +5,16 @@ const path = require("path");
 const userRoute = require("./routes/user");
 const companyRoute = require("./routes/company");
 const loginRoute = require("./routes/login");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const PORT = 5050;
 const app = express();
 
-app.use("/public", express.static(path.join(__dirname, "public")));
-
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 app.use(express.json());
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use("/", userRoute);
 app.use("/", companyRoute);
