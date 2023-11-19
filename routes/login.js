@@ -42,8 +42,8 @@ login.post("/login", async (req, res) => {
       var token = jwt.sign(
          {
             id: user._id,
-            firstName: user.firstname,
-            lastName: user.lastname,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             dateOfBirth: user.dateOfBirth,
             phoneNumber: user.phoneNumber,

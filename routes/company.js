@@ -5,6 +5,7 @@ const logger = require("../middleware/logger");
 const upload = require("../middleware/avatarUpload");
 const company = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 company.get("/company/:id", logger, async (req, res) => {
    const { id } = req.params;
@@ -63,6 +64,60 @@ company.post("/company/create", logger, async (req, res) => {
    }
 });
 
+company.patch(
+   "/company/cloudUpdate/:id",
+   upload.single("avatar"),
+   async (req, res) => {
+      const { id } = req.params;
+
+      const companyExist = await companyModel.findById(id);
+
+      if (!companyExist) {
+         return res.status(400).send({
+            statusCode: 404,
+            message: "company not found",
+         });
+      }
+
+      try {
+         const avatarUrl = req.file.path;
+         const options = { new: true };
+         const result = await companyModel.findByIdAndUpdate(id, {
+            avatar: `${avatarUrl}`,
+         });
+
+         const updatedCompany = await companyModel.findById(id);
+
+         const token = jwt.sign(
+            {
+               id: updatedCompany._id,
+               name: updatedCompany.name,
+               email: updatedCompany.email,
+               phoneNumber: updatedCompany.phoneNumber,
+               avatar: updatedCompany.avatar,
+               role: "company",
+            },
+            process.env.JWT_SECRET,
+            {
+               expiresIn: "24h",
+            }
+         );
+
+         res.status(200).send({
+            statusCode: 200,
+            message: "Company edited succesfully",
+            result,
+            token,
+         });
+      } catch (e) {
+         res.status(500).send({
+            statusCode: 500,
+            message: "Internet server ERROR",
+         });
+      }
+   }
+);
+
 company.patch("/company/update/:id", logger, async (req, res) => {
    const { id } = req.params;
 
@@ -84,10 +139,28 @@ company.patch("/company/update/:id", logger, async (req, res) => {
          options
       );
 
+      const updatedCompany = await companyModel.findById(id);
+
+      const token = jwt.sign(
+         {
+            id: updatedCompany._id,
+            name: updatedCompany.name,
+            email: updatedCompany.email,
+            phoneNumber: updatedCompany.phoneNumber,
+            avatar: updatedCompany.avatar,
+            role: "company",
+         },
+         process.env.JWT_SECRET,
+         {
+            expiresIn: "24h",
+         }
+      );
+
       res.status(200).send({
          statusCode: 200,
          message: "company edited succesfully",
          result,
+         token,
       });
    } catch (e) {
       res.status(500).send({

@@ -44,8 +44,8 @@ user.post("/user/create", logger, async (req, res) => {
    }
 
    const newUser = new userModel({
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
       dateOfBirth: req.body.dateOfBirth,
@@ -90,15 +90,17 @@ user.patch(
             avatar: `${avatarUrl}`,
          });
 
+         const updatedUser = await userModel.findById(id);
+
          const token = jwt.sign(
             {
-               id: result._id,
-               firstName: result.firstName,
-               lastName: result.lastName,
-               email: result.email,
-               dateOfBirth: result.dateOfBirth,
-               phoneNumber: result.phoneNumber,
-               avatar: result.avatar,
+               id: updatedUser._id,
+               firstName: updatedUser.firstName,
+               lastName: updatedUser.lastName,
+               email: updatedUser.email,
+               dateOfBirth: updatedUser.dateOfBirth,
+               phoneNumber: updatedUser.phoneNumber,
+               avatar: updatedUser.avatar,
                role: "user",
             },
             process.env.JWT_SECRET,
@@ -143,15 +145,18 @@ user.patch("/user/update/:id", logger, async (req, res) => {
          options
       );
 
+      const updatedUser = await userModel.findById(id);
+
       const token = jwt.sign(
          {
-            id: result._id,
-            firstName: result.firstName,
-            lastName: result.lastName,
-            email: result.email,
-            dateOfBirth: result.dateOfBirth,
-            phoneNumber: result.phoneNumber,
-            avatar: result.avatar,
+            id: updatedUser._id,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            email: updatedUser.email,
+            dateOfBirth: updatedUser.dateOfBirth,
+            phoneNumber: updatedUser.phoneNumber,
+            avatar: updatedUser.avatar,
+            role: "user",
          },
          process.env.JWT_SECRET,
          {
@@ -163,6 +168,7 @@ user.patch("/user/update/:id", logger, async (req, res) => {
          statusCode: 200,
          message: "User edited succesfully",
          result,
+         token,
       });
    } catch (e) {
       res.status(500).send({
