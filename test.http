@@ -1,3 +1,9 @@
+GET http://localhost:5050/posts
+
+
+####
+
+
 GET http://localhost:5050/user/654793f40ee076ff8e428358
 
 
@@ -34,6 +40,23 @@ Content-Type: application/json
    "email": "orlaale@live.com",
    "password": "Ciaosnoale2909",
    "phoneNumber": "333444888999"
+}
+
+####
+
+POST http://localhost:5050/post/create/655126ae1305798bebc8a786 HTTP/1.1
+Content-Type: application/json
+
+{
+   "year": "2002",
+   "make": "Fiat",
+   "model": "Panda",
+   "engine": "1.1",
+   "fuelType": "Benzina",
+   "power": "40",
+   "km": "140000",
+   "description": "stoprovando la terza macchina come rivenditore",
+   "price": "100000000"
 }
 
 

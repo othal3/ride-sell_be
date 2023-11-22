@@ -5,6 +5,7 @@ const path = require("path");
 const userRoute = require("./routes/user");
 const companyRoute = require("./routes/company");
 const loginRoute = require("./routes/login");
+const postRoute = require("./routes/post");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/", userRoute);
 app.use("/", companyRoute);
 app.use("/", loginRoute);
+app.use("/", postRoute);
 
 mongoose.connect(process.env.MONGODB_URL, {
    useNewUrlParser: true,
