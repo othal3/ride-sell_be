@@ -14,7 +14,7 @@ const cloudStorage = new CloudinaryStorage({
    params: {
       folder: "ridesell/post",
       format: async (req, file) => "png",
-      public_id: (req, file) => `${file.fieldname}-${Date.now()}`,
+      public_id: (req, file) => file.name,
    },
 });
 
